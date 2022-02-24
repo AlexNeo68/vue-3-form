@@ -19,8 +19,11 @@
 
       <h3>Are pets allowed?</h3>
 
-      <BaseRadio label="Yes" v-model="event.pets" :value="1" name="pets" />
-      <BaseRadio label="No" v-model="event.pets" :value="0" name="pets" />
+      <BaseRadioGroup
+        :optionsValue="optionsValue"
+        v-model="event.pets"
+        name="pets"
+      />
 
       <h3>Extras</h3>
       <BaseCheckbox label="Catering" v-model="event.extras.catering" />
@@ -35,6 +38,10 @@
 export default {
   data() {
     return {
+      optionsValue: [
+        { label: "Yes", value: 1 },
+        { label: "No", value: 0 },
+      ],
       categories: [
         "sustainability",
         "nature",
