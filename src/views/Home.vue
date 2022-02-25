@@ -1,33 +1,33 @@
 <template>
   <div>
     <h1>Create an event</h1>
-    <form>
+    <form @submit.prevent="onSubmit">
       <BaseSelect
-        v-model="event.category"
+        v-model="eventData.category"
         label="Select a category"
         :options="categories"
       />
 
       <h3>Name & describe your event</h3>
-      <BaseInput v-model="event.title" label="Title" />
+      <BaseInput v-model="eventData.title" label="Title" />
 
-      <BaseInput v-model="event.description" label="Description" />
+      <BaseInput v-model="eventData.description" label="Description" />
 
       <h3>Where is your event?</h3>
 
-      <BaseInput v-model="event.location" label="Location" />
+      <BaseInput v-model="eventData.location" label="Location" />
 
       <h3>Are pets allowed?</h3>
 
       <BaseRadioGroup
         :optionsValue="optionsValue"
-        v-model="event.pets"
+        v-model="eventData.pets"
         name="pets"
       />
 
       <h3>Extras</h3>
-      <BaseCheckbox label="Catering" v-model="event.extras.catering" />
-      <BaseCheckbox label="Live music" v-model="event.extras.music" />
+      <BaseCheckbox label="Catering" v-model="eventData.extras.catering" />
+      <BaseCheckbox label="Live music" v-model="eventData.extras.music" />
 
       <button class="button -fill-gradient" type="submit">Submit</button>
     </form>
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
@@ -51,7 +52,7 @@ export default {
         "food",
         "community",
       ],
-      event: {
+      eventData: {
         category: "",
         title: "",
         description: "",
@@ -65,7 +66,15 @@ export default {
     };
   },
   methods: {
-    onSubmit() {},
+    async onSubmit() {
+      try {
+        const res = await axios.post(
+          "https://my-json-server.typicode.com/AlexNeo68/vue-3-form/events",
+          this.eventData
+        );
+        console.log(res);
+      } catch (error) {}
+    },
   },
 };
 </script>
