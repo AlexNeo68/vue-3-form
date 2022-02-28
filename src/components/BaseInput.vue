@@ -1,43 +1,50 @@
 <template>
-  <label v-if="label">{{ label }}</label>
+  <label v-if="label" :for="uuid">
+    {{ label }}
+  </label>
   <input
-    :value="modelValue"
-    :type="type"
-    v-bind="$attrs"
-    :placeholder="label"
     class="field"
-    @input="($event) => $emit('update:modelValue', $event.target.value)"
+    v-bind="{
+      ...$attrs,
+      onInput: updateValue,
+    }"
+    :id="uuid"
+    :value="modelValue"
+    :placeholder="label"
+    :aria-describedby="error ? `${uuid}-error` : null"
+    :aria-invalid="error ? true : false"
+    :class="{ error }"
   />
+  <BaseErrorMessage v-if="error" :id="`${uuid}-error`">
+    {{ error }}
+  </BaseErrorMessage>
 </template>
 
 <script>
+import SetupFormComponent from "@/features/SetupFormComponent";
+import UniqueID from "@/features/UniqueID";
 export default {
-  name: "BaseInput",
   props: {
-    label: String,
-    type: { type: String, default: "text" },
+    label: {
+      type: String,
+      default: "",
+    },
+    error: {
+      type: String,
+      default: "",
+    },
     modelValue: {
       type: [String, Number],
       default: "",
     },
   },
+  setup(props, context) {
+    const { updateValue } = SetupFormComponent(props, context);
+    const uuid = UniqueID().getID();
+    return {
+      updateValue,
+      uuid,
+    };
+  },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>

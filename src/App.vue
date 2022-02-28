@@ -1,6 +1,8 @@
 <template>
   <div id="nav">
     <router-link to="/">Home</router-link> |
+    <router-link to="/add-event">Add Event</router-link> |
+    <router-link to="/login">Login</router-link> |
     <router-link to="/about">About</router-link>
   </div>
   <router-view />
@@ -193,6 +195,7 @@ textarea {
 [type="text"],
 [type="number"],
 [type="search"],
+[type="email"],
 [type="password"] {
   height: 52px;
   width: 100%;
@@ -202,6 +205,7 @@ textarea {
 [type="text"]:focus,
 [type="number"]:focus,
 [type="search"]:focus,
+[type="email"]:focus,
 [type="password"]:focus {
   border-color: #39b982;
 }
